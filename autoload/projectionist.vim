@@ -225,7 +225,9 @@ function! projectionist#glob(file, ...) abort
     let root = projectionist#path('', a:1)
   endif
   let path = s:absolute(a:file, root)
-  if v:version >= 704
+  if g:projectionist_use_ls:
+      let files = split(system("ls -1" . path), "\n")
+  elseif v:version >= 704
     let files = s:fcall('glob', path, a:0 > 1 ? a:2 : 0, 1)
   else
     let files = split(s:fcall('glob', path), "\n")
